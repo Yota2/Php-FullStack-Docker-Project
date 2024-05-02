@@ -1,0 +1,11 @@
+version: '26.0.2' # docker version
+services:
+  www:
+    image: php:apache
+    volumes:
+      - "./:/var/www/html" #sync project dir container web dir
+    ports:
+      - "8080:80"
+      - "443:443"
+
+
