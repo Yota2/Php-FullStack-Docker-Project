@@ -3,9 +3,26 @@ services:
   www:
     image: php:apache
     volumes:
-      - "./:/var/www/html" #sync project dir container web dir
+      - "./:/var/www/html" # sync project dir container web dir
     ports:
       - "8080:80"
       - "443:443"
 
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=php_docker
+      - MYSQL_USER=php_docker
+      - MYSQL_PASSWORD=passwordpassword # this should live in an env var
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1 # equivalent to true
+    volumes:
+      - "./db:/docker-entrypoint-initdb.d"
 
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8001:80"
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
